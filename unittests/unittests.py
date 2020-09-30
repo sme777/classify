@@ -133,6 +133,23 @@ class TestArgmax(TestCase):
         t.check_scalar("a0", 4)
         # generate the `assembly/TestArgmax_test_simple.s` file and run it through venus
         t.execute()
+    
+    def test_simple5(self):
+        t = AssemblyTest(self, "argmax.s")
+        # create an array in the data section
+        array0 = t.array([-100, -2, -3, -4, -500, -6, -7, -8, -9])
+        #raise NotImplementedError("TODO")
+        # TODO
+        # load address of the array into register a0
+        t.input_array("a0", array0)
+        # set a1 to the length of the array
+        t.input_scalar("a1", len(array0))
+        # call the `argmax` function
+        t.call("argmax")
+        # check that the register a0 contains the correct output
+        t.check_scalar("a0", 1)
+        # generate the `assembly/TestArgmax_test_simple.s` file and run it through venus
+        t.execute()
 
     @classmethod
     def tearDownClass(cls):
