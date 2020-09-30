@@ -22,6 +22,38 @@ class TestAbs(TestCase):
         t.check_scalar("a0", 1)
         t.execute()
 
+    def test_negative_one(self):
+        # same as test_zero, but with input 1
+        t = AssemblyTest(self, "abs.s")
+        t.input_scalar("a0", -1)
+        t.call("abs")
+        t.check_scalar("a0", 1)
+        t.execute()
+
+    def test_negative_zero(self):
+        # same as test_zero, but with input 1
+        t = AssemblyTest(self, "abs.s")
+        t.input_scalar("a0", -0)
+        t.call("abs")
+        t.check_scalar("a0", 0)
+        t.execute()
+
+    def test_postive_large_value(self):
+        # same as test_zero, but with input 1
+        t = AssemblyTest(self, "abs.s")
+        t.input_scalar("a0", 43168)
+        t.call("abs")
+        t.check_scalar("a0", 43168)
+        t.execute()
+
+    def test_negative_large_value(self):
+        # same as test_zero, but with input 1
+        t = AssemblyTest(self, "abs.s")
+        t.input_scalar("a0", -78214)
+        t.call("abs")
+        t.check_scalar("a0", 78214)
+        t.execute()
+
     @classmethod
     def tearDownClass(cls):
         print_coverage("abs.s", verbose=False)
@@ -42,6 +74,35 @@ class TestRelu(TestCase):
         t.check_array(array0, [1, 0, 3, 0, 5, 0, 7, 0, 9])
         # generate the `assembly/TestRelu_test_simple.s` file and run it through venus
         t.execute()
+    def test_error(self):
+        t = AssemblyTest(self, "relu.s")
+        # create an array in the data section
+        array0 = t.array([])
+        # load address of `array0` into register a0
+        t.input_array("a0", array0)
+        # set a1 to the length of our array
+        t.input_scalar("a1", len(array0))
+        # call the relu function
+        t.call("relu")
+        # check that the array0 was changed appropriately
+        
+        # generate the `assembly/TestRelu_test_simple.s` file and run it through venus
+        t.execute(code=78)
+
+    def test_long_list(self):
+        t = AssemblyTest(self, "relu.s")
+        # create an array in the data section
+        array0 = t.array([1, -5, -6, 7, 8, -2, 4, 7, 3, -2, 2, -5, 4, -4])
+        # load address of `array0` into register a0
+        t.input_array("a0", array0)
+        # set a1 to the length of our array
+        t.input_scalar("a1", len(array0))
+        # call the relu function
+        t.call("relu")
+        # check that the array0 was changed appropriately
+        t.check_array(array0, [1, 0, 0, 7, 8, 0, 4, 7, 3, 0, 2, 0, 4, 0])
+        # generate the `assembly/TestRelu_test_simple.s` file and run it through venus
+        t.execute()
 
     @classmethod
     def tearDownClass(cls):
@@ -52,16 +113,86 @@ class TestArgmax(TestCase):
     def test_simple(self):
         t = AssemblyTest(self, "argmax.s")
         # create an array in the data section
-        raise NotImplementedError("TODO")
+        #raise NotImplementedError("TODO")
         # TODO
         # load address of the array into register a0
         # TODO
+        array0 = t.array([1, -2, 3, -4, 5, -6, 7, -8, 9])
         # set a1 to the length of the array
         # TODO
+        t.input_array("a0", array0)
+        t.input_scalar("a1", len(array0))
+        t.call("argmax")
+        t.check_scalar("a0", 8)
         # call the `argmax` function
         # TODO
         # check that the register a0 contains the correct output
         # TODO
+        # generate the `assembly/TestArgmax_test_simple.s` file and run it through venus
+        t.execute()
+
+    def test_simple2(self):
+        t = AssemblyTest(self, "argmax.s")
+        # create an array in the data section
+        array0 = t.array([])
+        # load address of `array0` into register a0
+        t.input_array("a0", array0)
+        # set a1 to the length of our array
+        t.input_scalar("a1", len(array0))
+        # call the relu function
+        t.call("argmax")
+        # check that the array0 was changed appropriately
+        # generate the `assembly/TestRelu_test_simple.s` file and run it through venus
+        t.execute(code=77)
+    
+    def test_simple3(self):
+        t = AssemblyTest(self, "argmax.s")
+        # create an array in the data section
+        array0 = t.array([100, -2, 3, -4, 5, -6, 7, -8, 9])
+        #raise NotImplementedError("TODO")
+        # TODO
+        # load address of the array into register a0
+        t.input_array("a0", array0)
+        # set a1 to the length of the array
+        t.input_scalar("a1", len(array0))
+        # call the `argmax` function
+        t.call("argmax")
+        # check that the register a0 contains the correct output
+        t.check_scalar("a0", 0)
+        # generate the `assembly/TestArgmax_test_simple.s` file and run it through venus
+        t.execute()
+
+    def test_simple4(self):
+        t = AssemblyTest(self, "argmax.s")
+        # create an array in the data section
+        array0 = t.array([100, -2, 3, -4, 500, -6, 7, -8, 9])
+        #raise NotImplementedError("TODO")
+        # TODO
+        # load address of the array into register a0
+        t.input_array("a0", array0)
+        # set a1 to the length of the array
+        t.input_scalar("a1", len(array0))
+        # call the `argmax` function
+        t.call("argmax")
+        # check that the register a0 contains the correct output
+        t.check_scalar("a0", 4)
+        # generate the `assembly/TestArgmax_test_simple.s` file and run it through venus
+        t.execute()
+    
+    def test_simple5(self):
+        t = AssemblyTest(self, "argmax.s")
+        # create an array in the data section
+        array0 = t.array([-100, -2, -3, -4, -500, -6, -7, -8, -9])
+        #raise NotImplementedError("TODO")
+        # TODO
+        # load address of the array into register a0
+        t.input_array("a0", array0)
+        # set a1 to the length of the array
+        t.input_scalar("a1", len(array0))
+        # call the `argmax` function
+        t.call("argmax")
+        # check that the register a0 contains the correct output
+        t.check_scalar("a0", 1)
         # generate the `assembly/TestArgmax_test_simple.s` file and run it through venus
         t.execute()
 
@@ -70,21 +201,232 @@ class TestArgmax(TestCase):
         print_coverage("argmax.s", verbose=False)
 
 
+
 class TestDot(TestCase):
     def test_simple(self):
         t = AssemblyTest(self, "dot.s")
         # create arrays in the data section
-        raise NotImplementedError("TODO")
+        #raise NotImplementedError("TODO")
+        v0 = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+        v1 = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+        array0 = t.array(v0)
+        array1 = t.array(v1)
+
+
         # TODO
         # load array addresses into argument registers
         # TODO
+        t.input_array("a0", array0)
+        t.input_array("a1", array1)
         # load array attributes into argument registers
         # TODO
+        t.input_scalar("a2", 9)
+        t.input_scalar("a3", 1)
+        t.input_scalar("a4", 1)
         # call the `dot` function
         t.call("dot")
         # check the return value
         # TODO
+        t.check_scalar("a0", 285)
         t.execute()
+
+    def test_simple2(self):
+        t = AssemblyTest(self, "dot.s")
+        # create arrays in the data section
+        #raise NotImplementedError("TODO")
+        v0 = [45, 2, -2, 4, 12, 43, 7, 8, -3]
+        v1 = [0, 3, 3, 4, 90, 6, 32, 1, 401]
+        array0 = t.array(v0)
+        array1 = t.array(v1)
+
+
+        # TODO
+        # load array addresses into argument registers
+        # TODO
+        t.input_array("a0", array0)
+        t.input_array("a1", array1)
+        # load array attributes into argument registers
+        # TODO
+        t.input_scalar("a2", 9)
+        t.input_scalar("a3", 1)
+        t.input_scalar("a4", 1)
+        # call the `dot` function
+        t.call("dot")
+        # check the return value
+        # TODO
+        t.check_scalar("a0", 383)
+        t.execute()
+
+    def test_stride(self):
+        t = AssemblyTest(self, "dot.s")
+        # create arrays in the data section
+        #raise NotImplementedError("TODO")
+        v0 = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+        v1 = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+        array0 = t.array(v0)
+        array1 = t.array(v1)
+
+
+        # TODO
+        # load array addresses into argument registers
+        # TODO
+        t.input_array("a0", array0)
+        t.input_array("a1", array1)
+        # load array attributes into argument registers
+        # TODO
+        t.input_scalar("a2", 3)
+        t.input_scalar("a3", 1)
+        t.input_scalar("a4", 2)
+        # call the `dot` function
+        t.call("dot")
+        # check the return value
+        # TODO
+        t.check_scalar("a0", 22)
+        t.execute()
+
+    def test_stride2(self):
+        t = AssemblyTest(self, "dot.s")
+        # create arrays in the data section
+        #raise NotImplementedError("TODO")
+        v0 = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+        v1 = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+        array0 = t.array(v0)
+        array1 = t.array(v1)
+
+
+        # TODO
+        # load array addresses into argument registers
+        # TODO
+        t.input_array("a0", array0)
+        t.input_array("a1", array1)
+        # load array attributes into argument registers
+        # TODO
+        t.input_scalar("a2", 3)
+        t.input_scalar("a3", 3)
+        t.input_scalar("a4", 2)
+        # call the `dot` function
+        t.call("dot")
+        # check the return value
+        # TODO
+        t.check_scalar("a0", 48)
+        t.execute()
+
+    def test_edgecase1(self):
+        t = AssemblyTest(self, "dot.s")
+        # create an array in the data section
+        
+        # load address of `array0` into register a0
+        v0 = [45, 2, -2, 4, 12, 43, 7, 8, -3]
+        v1 = [0, 3, 3, 4, 90, 6, 32, 1, 401]
+        array0 = t.array(v0)
+        array1 = t.array(v1)
+
+
+        # TODO
+        # load array addresses into argument registers
+        # TODO
+        t.input_array("a0", array0)
+        t.input_array("a1", array1)
+        # load array attributes into argument registers
+        # TODO
+        t.input_scalar("a2", 0)
+        t.input_scalar("a3", 1)
+        t.input_scalar("a4", 1)
+        # set a1 to the length of our array
+        
+        # call the relu function
+        t.call("dot")
+        # check that the array0 was changed appropriately
+        # generate the `assembly/TestRelu_test_simple.s` file and run it through venus
+        t.execute(code=75)
+
+    def test_edgecase2(self):
+        t = AssemblyTest(self, "dot.s")
+        # create an array in the data section
+        
+        # load address of `array0` into register a0
+        v0 = [45, 2, -2, 4, 12, 43, 7, 8, -3]
+        v1 = [0, 3, 3, 4, 90, 6, 32, 1, 401]
+        array0 = t.array(v0)
+        array1 = t.array(v1)
+
+
+        # TODO
+        # load array addresses into argument registers
+        # TODO
+        t.input_array("a0", array0)
+        t.input_array("a1", array1)
+        # load array attributes into argument registers
+        # TODO
+        t.input_scalar("a2", 9)
+        t.input_scalar("a3", 0)
+        t.input_scalar("a4", 1)
+        # set a1 to the length of our array
+        
+        # call the relu function
+        t.call("dot")
+        # check that the array0 was changed appropriately
+        # generate the `assembly/TestRelu_test_simple.s` file and run it through venus
+        t.execute(code=76)
+
+    def test_edgecase3(self):
+        t = AssemblyTest(self, "dot.s")
+        # create an array in the data section
+        
+        # load address of `array0` into register a0
+        v0 = [45, 2, -2, 4, 12, 43, 7, 8, -3]
+        v1 = [0, 3, 3, 4, 90, 6, 32, 1, 401]
+        array0 = t.array(v0)
+        array1 = t.array(v1)
+
+
+        # TODO
+        # load array addresses into argument registers
+        # TODO
+        t.input_array("a0", array0)
+        t.input_array("a1", array1)
+        # load array attributes into argument registers
+        # TODO
+        t.input_scalar("a2", 9)
+        t.input_scalar("a3", 1)
+        t.input_scalar("a4", 0)
+        # set a1 to the length of our array
+        
+        # call the relu function
+        t.call("dot")
+        # check that the array0 was changed appropriately
+        # generate the `assembly/TestRelu_test_simple.s` file and run it through venus
+        t.execute(code=76)
+
+
+    def test_edgecase4(self):
+        t = AssemblyTest(self, "dot.s")
+        # create an array in the data section
+        
+        # load address of `array0` into register a0
+        v0 = [45, 2, -2, 4]
+        v1 = [0, 3, 3, 4, 90, 6, 32, 1, 401]
+        array0 = t.array(v0)
+        array1 = t.array(v1)
+
+
+        # TODO
+        # load array addresses into argument registers
+        # TODO
+        t.input_array("a0", array0)
+        t.input_array("a1", array1)
+        # load array attributes into argument registers
+        # TODO
+        t.input_scalar("a2", 9)
+        t.input_scalar("a3", 0)
+        t.input_scalar("a4", 0)
+        # set a1 to the length of our array
+        
+        # call the relu function
+        t.call("dot")
+        # check that the array0 was changed appropriately
+        # generate the `assembly/TestRelu_test_simple.s` file and run it through venus
+        t.execute(code=76)
 
     @classmethod
     def tearDownClass(cls):
