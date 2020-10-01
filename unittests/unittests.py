@@ -460,7 +460,7 @@ class TestMatmul(TestCase):
         t.input_array("a3", array1)
         t.input_scalar("a4", m1_rows)
         t.input_scalar("a5", m1_cols)
-
+        t.input_array("a6", array_out)
         # load array attributes into argument registers
         # TODO
         # load address of output array
@@ -473,7 +473,7 @@ class TestMatmul(TestCase):
         # TODO
         #t.check_stdout("a6")
 
-        t.check_array(array_out, "a6")
+        t.check_array(array_out, result)
         # generate the assembly file and run it through venus, we expect the simulation to exit with code `code`
         t.execute(code=code)
 
