@@ -25,7 +25,7 @@
 # =======================================================
 matmul:
 
-	#checks m0 is a valid matrix
+	#Prologue
     
     addi sp, sp -44
     sw s0, 0(sp)
@@ -48,12 +48,11 @@ matmul:
     blt a5, s0, done2
     #checks m0 dim matches m1 dim
     bne a2, a4, done3
-	
     #initalize outer loop counter
 	addi s0, x0, 0
     #initialize inner loop counter
     addi s1, x0, 0
-    # Prologue
+    
     add s2, x0, a0
     add s3, x0, a1
     add s4, x0, a2
@@ -75,17 +74,7 @@ outer_loop_start:
 inner_loop_start:
 
 	bge s1, s7, inner_loop_end
-	
-    #store the values of registers a0-a6 and move stack pointer
-	#addi sp, sp, -24
-    #sw ra, 0(s0)
-    #sw a0, 4(sp)
-    #sw a1, 8(sp)
-    #sw a2, 12(sp)
-    #sw a3, 16(sp)
-    #sw a4, 20(sp)
-    
-    #add a0, x0, a0
+
     add a0, x0, s2
     add a1, x0, s5
     add a2, x0, s4
@@ -94,19 +83,9 @@ inner_loop_start:
     #perform dot product
 	jal ra dot
     #save the returned value
-    ebreak
     sw a0, 0(s8)
     addi s5, s5, 4
 	addi s8, s8, 4
-    #load the values of registers a0-a6 and move stack pointer
-    #lw a4, 20(sp)
-    #lw a3, 16(sp)
-    #lw a2, 12(sp)
-    #lw a1, 8(sp)
-    #lw a0, 4(sp)
-    #lw ra, 0(sp)
-	#addi sp, sp, 24
-
 	#increment inner loop counter
 	addi s1, s1, 1
     j inner_loop_end
@@ -114,7 +93,6 @@ inner_loop_start:
 inner_loop_end:
 
 	bge s1, s7, outer_loop_continue
-	#addi t0, t0, 4
 	j inner_loop_start
 
 
@@ -132,13 +110,6 @@ outer_loop_continue:
     
 outer_loop_end:
     # Epilogue
-    #a6 = ...
-    #mul t6, a2, a4
-    #sub t6, x0, t6
-    #add a6, a6, t6
-	#add a6, x0, s
-    
-    
     lw ra, 40(sp)
     lw s9, 36(sp)
     lw s8, 32(sp)
@@ -153,7 +124,6 @@ outer_loop_end:
     addi sp, sp 44
     
     ret
-    
     
 done1:
 	addi a1, x0, 72

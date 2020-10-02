@@ -14,25 +14,36 @@
 # ==============================================================================
 relu:
     # Prologue
-    addi t5, x0, 1
-    blt a1, t5, edge
-    addi t0, x0, 0
+    addi sp, sp, -16
+    sw s0, 0(sp)
+    sw s1, 4(sp)
+    sw s5, 8(sp)
+    sw ra, 12(sp)
+    
+    addi s5, x0, 1
+    blt a1, s5, edge
+    addi s0, x0, 0
 
 loop_start:
-	beq t0, a1, loop_end
-	lw t1, 0(a0)
-    bge t1, x0, loop_continue
-    addi t1, x0, 0
-    sw t1, 0(a0)
+	beq s0, a1, loop_end
+	lw s1, 0(a0)
+    bge s1, x0, loop_continue
+    addi s1, x0, 0
+    sw s1, 0(a0)
     
 loop_continue:
     addi a0, a0, 4
-    addi t0, t0, 1
+    addi s0, s0, 1
     j loop_start
     
 loop_end:
 
     # Epilogue
+    lw ra, 12(sp)
+    lw s5, 8(sp)
+    lw s1, 4(sp)
+    lw s0, 0(sp)
+    addi sp, sp, 16
     ret
     
 edge:
