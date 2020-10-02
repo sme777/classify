@@ -18,6 +18,18 @@
 #   this function terminates the program with error code 76.	#done
 # =======================================================
 dot:
+
+	addi sp, sp -28
+	sw t0, 0(sp)
+    sw t1, 4(sp)
+    sw t2, 8(sp)
+    sw t3, 12(sp)
+    sw t4, 16(sp)
+    sw t5, 20(sp)
+    sw t6, 24(sp)
+    
+
+
 	addi t5, x0, 1
     blt a2, t5, done1
     # Prologue
@@ -51,6 +63,17 @@ loop_start:
 loop_end:
     # Epilogue
     add a0, x0, t1
+    
+   
+	lw t6, 24(sp)
+    lw t5, 20(sp)
+    lw t4, 16(sp)
+    lw t3, 12(sp)
+    lw t2, 8(sp)
+    lw t1, 4(sp)
+    lw t0, 0(sp)
+    addi sp, sp 28
+    
     ret
     
     
