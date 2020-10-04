@@ -486,9 +486,6 @@ class TestDot(TestCase):
 
 class TestMatmul(TestCase):
 
-    
-
-
     def do_matmul(self, m0, m0_rows, m0_cols, m1, m1_rows, m1_cols, result, code=0):
         t = AssemblyTest(self, "matmul.s")
         # we need to include (aka import) the dot.s file since it is used by matmul.s
@@ -622,19 +619,29 @@ class TestReadMatrix(TestCase):
         cols = t.array([-1])
 
         # load the addresses to the output parameters into the argument registers
-        raise NotImplementedError("TODO")
         # TODO
+        t.input_array("a1", rows)
+        t.input_array("a2", cols)
+
 
         # call the read_matrix function
         t.call("read_matrix")
 
         # check the output from the function
         # TODO
+        v0 = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+        #v0 = t.array(v0)
+        t.check_array(rows, [3])
+        t.check_array(cols, [3])
+        t.check_array_pointer("a0", v0)
 
         # generate assembly and run it through venus
         t.execute(fail=fail, code=code)
 
     def test_simple(self):
+        self.do_read_matrix()
+
+    def test_simple2(self):
         self.do_read_matrix()
 
     @classmethod
