@@ -63,8 +63,10 @@ write_matrix:
     
     #sw s2, 0(s9)
     #add a2, x0, s9      #FIXME maybe not buffer
-    lw s2, 40(sp)
-    lw a2, 0(s2)
+    #ebreak
+    addi sp, sp -4
+    sw s2, 0(sp)
+    add a2, x0, sp
     #setting number of items
     addi a3, x0, 1
     #setting the size of item
@@ -75,14 +77,18 @@ write_matrix:
     addi a3, x0, 1
     blt a0, a3, edge2
     
+    lw s2, 0(sp)
+    addi sp, sp, 4
     #settign arguments for fwrite
     
     #setting file descriptor
     add a1, x0, s4
     #setting buffer to read from
   	#FIXME maybe not buffer
-    lw s3, 44(sp)
-    lw a2, 0(s3)
+    addi sp, sp, -4
+    sw s3, 0(sp)
+    add a2, x0, sp
+    #lw a2, 0(s3)
     #add a2, x0, s3 
     #setting number of items
     addi a3, x0, 1
@@ -95,6 +101,8 @@ write_matrix:
     addi a3, x0, 1
     blt a0, a3, edge2
     
+    lw s3, 0(sp)
+    addi sp, sp, 4
     #setting file descriptor
     add a1, x0, s4
     #setting buffer to read from

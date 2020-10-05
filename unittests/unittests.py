@@ -896,9 +896,163 @@ class TestWriteMatrix(TestCase):
         # compare the output file against the reference
         t.check_file_output(outfile, "outputs/test_write_matrix/reference.bin")
 
+    def do_write_matrix2(self, fail='', code=0):
+        t = AssemblyTest(self, "write_matrix.s")
+        outfile = "outputs/test_write_matrix/student2.bin"
+        # load output file name into a0 register
+        t.input_write_filename("a0", outfile)
+        # load input array and other arguments
+        #raise NotImplementedError("TODO")
+
+        v0 = t.array([10, -2, 303, 41, 3205, 666, -7, 82, 96, 52, -81, 0])
+        v1 = 4
+        v2 = 3
+        t.input_array("a1", v0)
+        t.input_scalar("a2", v1)
+        t.input_scalar("a3", v2)
+        # TODO
+        # call `write_matrix` function
+        t.call("write_matrix")
+        # generate assembly and run it through venus
+        t.execute(fail=fail, code=code)
+        # compare the output file against the reference
+        t.check_file_output(outfile, "outputs/test2.bin")
+
+    def do_write_matrix_tall(self, fail='', code=0):
+        t = AssemblyTest(self, "write_matrix.s")
+        outfile = "outputs/test_write_matrix/student3.bin"
+        # load output file name into a0 register
+        t.input_write_filename("a0", outfile)
+        # load input array and other arguments
+        #raise NotImplementedError("TODO")
+
+        v0 = t.array([1, 3, 5, 7, 11, 34, 45, -42, 0, 8, 601, 32, -98, 
+            51, 62, -78, -1, -2, 7, -31, 49, 99, 305, 678, 1, 1, 0, 
+            1, 45, 5, 5, 7, -4, 5, 82, -45, 12, 34, 55, 0])
+        v1 = 20
+        v2 = 2
+        t.input_array("a1", v0)
+        t.input_scalar("a2", v1)
+        t.input_scalar("a3", v2)
+        # TODO
+        # call `write_matrix` function
+        t.call("write_matrix")
+        # generate assembly and run it through venus
+        t.execute(fail=fail, code=code)
+        # compare the output file against the reference
+        t.check_file_output(outfile, "outputs/test_write_matrix/test3.bin")
+
+    def do_write_matrix_wide(self, fail='', code=0):
+        t = AssemblyTest(self, "write_matrix.s")
+        outfile = "outputs/test_write_matrix/student4.bin"
+        # load output file name into a0 register
+        t.input_write_filename("a0", outfile)
+        # load input array and other arguments
+        #raise NotImplementedError("TODO")
+
+        v0 = t.array([1, 3, 5, 7, 11, 34, 45, -42, 0, 8, 601, 32, -98, 
+            51, 62, -78, -1, -2, 7, -31, 49, 99, 305, 678, 1, 1, 0, 
+            1, 45, 5, 5, 7, -4, 5, 82, -45, 12, 34, 55, 0])
+        v1 = 2
+        v2 = 20
+        t.input_array("a1", v0)
+        t.input_scalar("a2", v1)
+        t.input_scalar("a3", v2)
+        # TODO
+        # call `write_matrix` function
+        t.call("write_matrix")
+        # generate assembly and run it through venus
+        t.execute(fail=fail, code=code)
+        # compare the output file against the reference
+        t.check_file_output(outfile, "outputs/test_write_matrix/test4.bin")
+
+    def do_write_matrix_edge1(self, fail='fopen', code=93):
+        t = AssemblyTest(self, "write_matrix.s")
+        outfile = "outputs/test_write_matrix/student2.bin"
+        # load output file name into a0 register
+        t.input_write_filename("a0", outfile)
+        # load input array and other arguments
+        #raise NotImplementedError("TODO")
+
+        v0 = t.array([10, -2, 303, 41, 3205, 666, -7, 82, 96, 52, -81, 0])
+        v1 = 4
+        v2 = 3
+        t.input_array("a1", v0)
+        t.input_scalar("a2", v1)
+        t.input_scalar("a3", v2)
+        # TODO
+        # call `write_matrix` function
+        t.call("write_matrix")
+        # generate assembly and run it through venus
+        t.execute(fail=fail, code=code)
+        # compare the output file against the reference
+        #t.check_file_output(outfile, "outputs/test2.bin")
+
+    def do_write_matrix_edge2(self, fail='fwrite', code=94):
+        t = AssemblyTest(self, "write_matrix.s")
+        outfile = "outputs/test_write_matrix/student2.bin"
+        # load output file name into a0 register
+        t.input_write_filename("a0", outfile)
+        # load input array and other arguments
+        #raise NotImplementedError("TODO")
+
+        v0 = t.array([10, -2, 303, 41, 3205, 666, -7, 82, 96, 52, -81, 0])
+        v1 = 4
+        v2 = 3
+        t.input_array("a1", v0)
+        t.input_scalar("a2", v1)
+        t.input_scalar("a3", v2)
+        # TODO
+        # call `write_matrix` function
+        t.call("write_matrix")
+        # generate assembly and run it through venus
+        t.execute(fail=fail, code=code)
+        # compare the output file against the reference
+        #t.check_file_output(outfile, "outputs/test2.bin")
+
+    def do_write_matrix_edge3(self, fail='fclose', code=95):
+        t = AssemblyTest(self, "write_matrix.s")
+        outfile = "outputs/test_write_matrix/student2.bin"
+        # load output file name into a0 register
+        t.input_write_filename("a0", outfile)
+        # load input array and other arguments
+        #raise NotImplementedError("TODO")
+
+        v0 = t.array([10, -2, 303, 41, 3205, 666, -7, 82, 96, 52, -81, 0])
+        v1 = 4
+        v2 = 3
+        t.input_array("a1", v0)
+        t.input_scalar("a2", v1)
+        t.input_scalar("a3", v2)
+        # TODO
+        # call `write_matrix` function
+        t.call("write_matrix")
+        # generate assembly and run it through venus
+        t.execute(fail=fail, code=code)
+        # compare the output file against the reference
+        #t.check_file_output(outfile, "outputs/test2.bin")
+
+
     def test_simple(self):
         self.do_write_matrix()
 
+    def test_simple2(self):
+        self.do_write_matrix2()
+
+    def test_long_col(self):
+        self.do_write_matrix_tall()
+
+    def test_long_row(self):
+        self.do_write_matrix_wide()
+
+    def test_edge1(self):
+        self.do_write_matrix_edge1()
+
+    def test_edge2(self):
+        self.do_write_matrix_edge2()
+
+    def test_edge3(self):
+        self.do_write_matrix_edge3()
     @classmethod
     def tearDownClass(cls):
         print_coverage("write_matrix.s", verbose=False)
