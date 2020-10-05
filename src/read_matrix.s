@@ -133,7 +133,6 @@ read_matrix:
     
     #pointing a0 to our matrix
     add a1, s1, x0
-    ebreak
     jal ra fclose
     blt a0, x0, edge4
     
