@@ -37,14 +37,15 @@ classify:
     sw s11, 44(sp)
     sw ra, 48(sp)
     
+    
     #Checking if correct number of args
     addi s0, x0, 5
     bne a0, s0, edge1
     
     #Saving passed in arguments
-    addi s0, x0, a0
-    addi s1, x0, a1
-    addi s2, x0, a2
+    add s0, x0, a0
+    add s1, x0, a1
+    add s2, x0, a2
     
 	# =====================================
     # LOAD MATRICES
@@ -198,6 +199,8 @@ classify:
     
     jal ra matmul
     
+    
+    ebreak
     #storing the hidden layer 
     add s8, a6, x0
     
@@ -290,14 +293,16 @@ classify:
     
 
 	#Freeing memory
+    add a1, s8, x0
+    jal ra free
+    add a1, s9, x0
+    jal ra free
 
 	# FIXME ADD CONDITION CHECKING A2 THAT WAS PASSED IN
     # Print classification
     bne s2, x0, no_print
     add a1, s10, x0
-    ecall
-    add a0, x0, s10
-    ecall
+    jal ra print_int
     # Print newline afterwards for clarity
     li a1, '\n'
     jal print_char

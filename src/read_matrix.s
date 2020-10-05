@@ -137,8 +137,8 @@ read_matrix:
     blt a0, x0, edge4
     
     
-    add a1, x0, s8
-    add a2, x0, s9
+    add a1, x0, s9
+    add a2, x0, s8
     add a0, x0, s7
     
     # Epilogue
