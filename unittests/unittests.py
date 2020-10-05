@@ -637,12 +637,235 @@ class TestReadMatrix(TestCase):
 
         # generate assembly and run it through venus
         t.execute(fail=fail, code=code)
+    
+    def do_read_matrix2(self, fail='', code=0):
+        t = AssemblyTest(self, "read_matrix.s")
+        # load address to the name of the input file into register a0
+        t.input_read_filename("a0", "inputs/test_read_matrix/test_input2.bin")
+
+        # allocate space to hold the rows and cols output parameters
+        rows = t.array([-1])
+        cols = t.array([-1])
+
+        # load the addresses to the output parameters into the argument registers
+        # TODO
+        t.input_array("a1", rows)
+        t.input_array("a2", cols)
+
+
+        # call the read_matrix function
+        t.call("read_matrix")
+
+        # check the output from the function
+        # TODO
+        v0 = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]
+        #v0 = t.array(v0)
+        t.check_array(rows, [4])
+        t.check_array(cols, [4])
+        t.check_array_pointer("a0", v0)
+
+        # generate assembly and run it through venus
+        t.execute(fail=fail, code=code)
+    
+    def do_read_matrix3(self, fail='', code=0):
+        t = AssemblyTest(self, "read_matrix.s")
+        # load address to the name of the input file into register a0
+        t.input_read_filename("a0", "inputs/test_read_matrix/test_input3.bin")
+
+        # allocate space to hold the rows and cols output parameters
+        rows = t.array([-1])
+        cols = t.array([-1])
+
+        # load the addresses to the output parameters into the argument registers
+        # TODO
+        t.input_array("a1", rows)
+        t.input_array("a2", cols)
+
+
+        # call the read_matrix function
+        t.call("read_matrix")
+
+        # check the output from the function
+        # TODO
+        v0 = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+        #v0 = t.array(v0)
+        t.check_array(rows, [3])
+        t.check_array(cols, [4])
+        t.check_array_pointer("a0", v0)
+
+        # generate assembly and run it through venus
+        t.execute(fail=fail, code=code)
+
+    def do_read_matrix4(self, fail='', code=0):
+        t = AssemblyTest(self, "read_matrix.s")
+        # load address to the name of the input file into register a0
+        t.input_read_filename("a0", "inputs/test_read_matrix/test_input4.bin")
+
+        # allocate space to hold the rows and cols output parameters
+        rows = t.array([-1])
+        cols = t.array([-1])
+
+        # load the addresses to the output parameters into the argument registers
+        # TODO
+        t.input_array("a1", rows)
+        t.input_array("a2", cols)
+
+
+        # call the read_matrix function
+        t.call("read_matrix")
+
+        # check the output from the function
+        # TODO
+        v0 = [1, 2, 3, 4, 5, 6]
+        #v0 = t.array(v0)
+        t.check_array(rows, [2])
+        t.check_array(cols, [3])
+        t.check_array_pointer("a0", v0)
+
+        # generate assembly and run it through venus
+        t.execute(fail=fail, code=code)
+
+    def do_read_matrix5(self, fail='malloc', code=88):
+        t = AssemblyTest(self, "read_matrix.s")
+        # load address to the name of the input file into register a0
+        t.input_read_filename("a0", "inputs/test_read_matrix/test_input4.bin")
+
+        # allocate space to hold the rows and cols output parameters
+        rows = t.array([-1])
+        cols = t.array([-1])
+
+        # load the addresses to the output parameters into the argument registers
+        # TODO
+        t.input_array("a1", rows)
+        t.input_array("a2", cols)
+
+
+        # call the read_matrix function
+        t.call("read_matrix")
+
+        # check the output from the function
+        # TODO
+        v0 = [1, 2, 3, 4, 5, 6]
+        #v0 = t.array(v0)
+        t.check_array(rows, [2])
+        t.check_array(cols, [3])
+        t.check_array_pointer("a0", v0)
+
+        # generate assembly and run it through venus
+        t.execute(fail=fail, code=code)
+
+    def do_read_matrix6(self, fail='fopen', code=90):
+        t = AssemblyTest(self, "read_matrix.s")
+        # load address to the name of the input file into register a0
+        t.input_read_filename("a0", "inputs/test_read_matrix/test_input4.bin")
+
+        # allocate space to hold the rows and cols output parameters
+        rows = t.array([-1])
+        cols = t.array([-1])
+
+        # load the addresses to the output parameters into the argument registers
+        # TODO
+        t.input_array("a1", rows)
+        t.input_array("a2", cols)
+
+
+        # call the read_matrix function
+        t.call("read_matrix")
+
+        # check the output from the function
+        # TODO
+        v0 = [1, 2, 3, 4, 5, 6]
+        #v0 = t.array(v0)
+        t.check_array(rows, [2])
+        t.check_array(cols, [3])
+        t.check_array_pointer("a0", v0)
+
+        # generate assembly and run it through venus
+        t.execute(fail=fail, code=code)
+
+    def do_read_matrix7(self, fail='fread', code=91):
+        t = AssemblyTest(self, "read_matrix.s")
+        # load address to the name of the input file into register a0
+        t.input_read_filename("a0", "inputs/test_read_matrix/test_input4.bin")
+
+        # allocate space to hold the rows and cols output parameters
+        rows = t.array([-1])
+        cols = t.array([-1])
+
+        # load the addresses to the output parameters into the argument registers
+        # TODO
+        t.input_array("a1", rows)
+        t.input_array("a2", cols)
+
+
+        # call the read_matrix function
+        t.call("read_matrix")
+
+        # check the output from the function
+        # TODO
+        v0 = [1, 2, 3, 4, 5, 6]
+        #v0 = t.array(v0)
+        t.check_array(rows, [2])
+        t.check_array(cols, [3])
+        t.check_array_pointer("a0", v0)
+
+        # generate assembly and run it through venus
+        t.execute(fail=fail, code=code)
+
+    def do_read_matrix8(self, fail='fclose', code=92):
+        t = AssemblyTest(self, "read_matrix.s")
+        # load address to the name of the input file into register a0
+        t.input_read_filename("a0", "inputs/test_read_matrix/test_input4.bin")
+
+        # allocate space to hold the rows and cols output parameters
+        rows = t.array([-1])
+        cols = t.array([-1])
+
+        # load the addresses to the output parameters into the argument registers
+        # TODO
+        t.input_array("a1", rows)
+        t.input_array("a2", cols)
+
+
+        # call the read_matrix function
+        t.call("read_matrix")
+
+        # check the output from the function
+        # TODO
+        v0 = [1, 2, 3, 4, 5, 6]
+        #v0 = t.array(v0)
+        t.check_array(rows, [2])
+        t.check_array(cols, [3])
+        t.check_array_pointer("a0", v0)
+
+        # generate assembly and run it through venus
+        t.execute(fail=fail, code=code)
 
     def test_simple(self):
         self.do_read_matrix()
 
     def test_simple2(self):
-        self.do_read_matrix()
+        self.do_read_matrix2()
+    
+    def test_simple3(self):
+        self.do_read_matrix3()
+
+    def test_simple4(self):
+        self.do_read_matrix4()
+
+    def test_simple5(self):
+        self.do_read_matrix5()
+
+    def test_simple6(self):
+        self.do_read_matrix6()
+
+    def test_simple7(self):
+        self.do_read_matrix7()
+
+    def test_simple8(self):
+        self.do_read_matrix8()
+
+    
 
     @classmethod
     def tearDownClass(cls):
