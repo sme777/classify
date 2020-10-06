@@ -39,4 +39,5 @@ We worked with the suggested pair programming method from the Project Partner Pi
 * Helped w/ Matmul testing 
 * ReadMatrix
 * Classify
-we both also extensively helped each other with debugging throughout, and testing/sanity checks. 
+
+We both also extensively helped each other with debugging throughout, and testing/sanity checks. 
