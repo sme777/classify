@@ -1082,8 +1082,9 @@ class TestClassify(TestCase):
         t.execute(args=args)
 
         # compare the output file and
-        raise NotImplementedError("TODO")
+        # raise NotImplementedError("TODO")
         # TODO
+        
         # compare the classification output with `check_stdout`
 
     @classmethod

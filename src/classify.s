@@ -64,30 +64,29 @@ classify:
     lw a0, 4(s1)
     
     #Pointing to int for number of rows
-    addi sp, sp, -4
-    sw s3, 0(sp)
-    add a1, x0, sp
+    #addi sp, sp, -8
+    #sw s3, 0(sp)
+    #sw s4, 4(sp)
+    addi sp, sp, -24
+    
+    addi a1, sp, 0 
+    addi a2, sp, 4
     
     #Pointing to int for number of columns
-    addi sp, sp, -4
-    sw s4, 0(sp)
-    add a2, x0, sp
+
     
     jal ra read_matrix
+    ebreak
     
+    #lw s3, 0(sp)
+    #lw s4, 4(sp)
+    #addi sp, sp, 8
     #saving pointer to returned matrix m0
     add s5, x0, a0
     #saving numrows m0 
     lw t0, 0(a1)
     #saving numcols m0
     lw t1, 0(a2)
-    
-    lw s4, 0(sp)
-    addi sp, sp, 4
-    lw s3, 0(sp)
-    addi sp, sp, 4
-    
-    
     
     
     # Load pretrained m1
@@ -96,16 +95,23 @@ classify:
     lw a0, 8(s1)
     
     #Pointing to int for number of rows
-    addi sp, sp, -4
-    sw s3, 0(sp)
-    add a1, x0, sp
+    #addi sp, sp, -4
+    #sw s3, 0(sp)
+    addi a1, sp, 8
+    
+    #lw s3, 0(sp)
+    #addi sp, sp, 4
     
     #Pointing to int for number of columns
-    addi sp, sp, -4
-    sw s4, 0(sp)
-    add a2, x0, sp
+    #addi sp, sp, -4
+    #sw s4, 0(sp)
+    addi a2, sp, 12
+    
+    #lw s4, 0(sp)
+    #addi sp, sp, 4
     
     jal ra read_matrix
+    ebreak
     
     #saving pointer to returned matrix m1
     add s6, x0, a0
@@ -113,13 +119,6 @@ classify:
     lw t2, 0(a1)
     #saving numcols m1
     lw t3, 0(a2)
-    
-    
-    lw s4, 0(sp)
-    addi sp, sp, 4
-    lw s3, 0(sp)
-    addi sp, sp, 4
-
 
     # Load input matrix
     # Setting arguments for read_matrix
@@ -127,16 +126,23 @@ classify:
     lw a0, 12(s1)
     
     #Pointing to int for number of rows
-    addi sp, sp, -4
-    sw s3, 0(sp)
-    add a1, x0, sp
+    #addi sp, sp, -4
+    #sw s3, 0(sp)
+    addi a1, sp, 16
+    
+    #lw s3, 0(sp)
+    #addi sp, sp, 4
     
     #Pointing to int for number of columns
-    addi sp, sp, -4
-    sw s4, 0(sp)
-    add a2, x0, sp
+    #addi sp, sp, -4
+    #sw s4, 0(sp)
+    addi a2, sp, 20
+    
+    #lw s4, 0(sp)
+    #addi sp, sp, 4
     
     jal ra read_matrix
+    ebreak
     
     #saving pointer to returned matrix input
     add s7, x0, a0
@@ -145,10 +151,7 @@ classify:
     #saving numcols input
     lw t5, 0(a2)
     
-    lw s4, 0(sp)
-    addi sp, sp, 4
-    lw s3, 0(sp)
-    addi sp, sp, 4
+    addi sp, sp, 24
 
     # =====================================
     # RUN LAYERS
@@ -170,7 +173,40 @@ classify:
 # Returns:
 #	None (void), sets d = matmul(m0, m1)
     
+    
     # GENERATING FIRST LAYER (HIDDEN)
+    #allocating memory for the product
+    #allocating memory for the matrix
+    #number of matrix elements
+    
+    mul s3, t0, t5 #check if s2 is actual matrix size
+    #number of bytes to allocate for storing matrix
+    slli a0, s3, 2
+    
+    addi sp, sp, -24
+    sw t0, 0(sp)
+    sw t1, 4(sp)
+    sw t2, 8(sp)
+    sw t3, 12(sp)
+    sw t4, 16(sp)
+    sw t5, 20(sp)
+    
+    jal ra malloc
+    
+    lw t0, 0(sp)
+    lw t1, 4(sp)
+    lw t2, 8(sp)
+    lw t3, 12(sp)
+    lw t4, 16(sp)
+    lw t5, 20(sp)
+    addi sp, sp, 24
+    #checking if malloc failed
+    bge x0, a0, edge2 
+    
+    #saving pointer to allocated memory for the matrix for matmul
+    add a6, x0, a0    
+    #setting first matrix pointer
+    add a0, s5, x0
     #setting first rows
     add a1, t0, x0
     #setting first cols
@@ -182,27 +218,24 @@ classify:
     #setting second cols
     add a5, t5, x0
     
-    #allocating memory for the product
-    #allocating memory for the matrix
-    #number of matrix elements
-    mul s3, a1, a5 #check if s2 is actual matrix size
-    #number of bytes to allocate for storing matrix
-    slli a0, s3, 2
-    jal ra malloc
-    #checking if malloc failed
-    bge x0, a0, edge2 
-    #saving pointer to allocated memory for the matrix for matmul
-    add a6, x0, a0
-    
-    #setting first matrix pointer
-    add a0, s5, x0
+    addi sp, sp, -24
+    sw t0, 0(sp)
+    sw t1, 4(sp)
+    sw t2, 8(sp)
+    sw t3, 12(sp)
+    sw t4, 16(sp)
+    sw t5, 20(sp)
     
     jal ra matmul
+    add s8, a6, x0 #storing the hidden layer
     
-    
-    ebreak
-    #storing the hidden layer 
-    add s8, a6, x0
+    lw t0, 0(sp)
+    lw t1, 4(sp)
+    lw t2, 8(sp)
+    lw t3, 12(sp)
+    lw t4, 16(sp)
+    lw t5, 20(sp)
+    addi sp, sp, 24
     
     
     # GENERATING SECOND LAYER
@@ -216,8 +249,39 @@ classify:
     #number of elements
     mul a1, t0, t5
     
+    addi sp, sp, -24
+    sw t0, 0(sp)
+    sw t1, 4(sp)
+    sw t2, 8(sp)
+    sw t3, 12(sp)
+    sw t4, 16(sp)
+    sw t5, 20(sp)
+    
+    jal ra relu
+    
+    lw t0, 0(sp)
+    lw t1, 4(sp)
+    lw t2, 8(sp)
+    lw t3, 12(sp)
+    lw t4, 16(sp)
+    lw t5, 20(sp)
+    addi sp, sp, 24
+    
     
     # GENERATING THIRD LAYER (SCORES)
+    #allocating memory for the matrix
+    #number of matrix elements
+    mul s3, a1, a5 #check if s2 is actual matrix size
+    #number of bytes to allocate for storing matrix
+    slli a0, s3, 2
+    jal ra malloc
+    #checking if malloc failed
+    bge x0, a0, edge2 
+    
+    #saving pointer to allocated memory for the matrix for matmul
+    add a6, x0, a0
+    #setting second (m1) matrix pointer
+    add a0, s6, x0
     #setting second (m1) rows
     add a1, t2, x0
     #setting second (m1) cols
@@ -228,26 +292,28 @@ classify:
     add a4, t0, x0
     #setting hidden cols
     add a5, t5, x0
-    
-    #allocating memory for the product
-    #allocating memory for the matrix
-    #number of matrix elements
-    mul s3, a1, a5 #check if s2 is actual matrix size
-    #number of bytes to allocate for storing matrix
-    slli a0, s3, 2
-    jal ra malloc
-    #checking if malloc failed
-    bge x0, a0, edge2 
-    #saving pointer to allocated memory for the matrix for matmul
-    add a6, x0, a0
-    
-    #setting second (m1) matrix pointer
-    add a0, s6, x0
+   
+    addi sp, sp, -24
+    sw t0, 0(sp)
+    sw t1, 4(sp)
+    sw t2, 8(sp)
+    sw t3, 12(sp)
+    sw t4, 16(sp)
+    sw t5, 20(sp)
     
     jal ra matmul
     
+    lw t0, 0(sp)
+    lw t1, 4(sp)
+    lw t2, 8(sp)
+    lw t3, 12(sp)
+    lw t4, 16(sp)
+    lw t5, 20(sp)
+    addi sp, sp, 24
+    
     #storing the scores
     add s9, a6, x0
+    
     
     # =====================================
     # WRITE OUTPUT
@@ -271,7 +337,23 @@ classify:
     add a2, t2, x0
     add a3, t5, x0
     
+    addi sp, sp, -24
+    sw t0, 0(sp)
+    sw t1, 4(sp)
+    sw t2, 8(sp)
+    sw t3, 12(sp)
+    sw t4, 16(sp)
+    sw t5, 20(sp)
+    
     jal ra write_matrix
+    
+    lw t0, 0(sp)
+    lw t1, 4(sp)
+    lw t2, 8(sp)
+    lw t3, 12(sp)
+    lw t4, 16(sp)
+    lw t5, 20(sp)
+    addi sp, sp, 24
     
     
     # =====================================
@@ -287,25 +369,113 @@ classify:
 
 	add a0, s9, x0
     mul a1, t2, t5
+    
+    addi sp, sp, -24
+    sw t0, 0(sp)
+    sw t1, 4(sp)
+    sw t2, 8(sp)
+    sw t3, 12(sp)
+    sw t4, 16(sp)
+    sw t5, 20(sp)
+    
     jal ra argmax
+    
+    lw t0, 0(sp)
+    lw t1, 4(sp)
+    lw t2, 8(sp)
+    lw t3, 12(sp)
+    lw t4, 16(sp)
+    lw t5, 20(sp)
+    addi sp, sp, 24
+    
     add s10, a0, x0
     
-    
-
 	#Freeing memory
-    add a1, s8, x0
+    add a0, s8, x0
+    
+    addi sp, sp, -24
+    sw t0, 0(sp)
+    sw t1, 4(sp)
+    sw t2, 8(sp)
+    sw t3, 12(sp)
+    sw t4, 16(sp)
+    sw t5, 20(sp)
+    
     jal ra free
-    add a1, s9, x0
+    
+    lw t0, 0(sp)
+    lw t1, 4(sp)
+    lw t2, 8(sp)
+    lw t3, 12(sp)
+    lw t4, 16(sp)
+    lw t5, 20(sp)
+    addi sp, sp, 24
+    
+    add a0, s9, x0
+    
+    addi sp, sp, -24
+    sw t0, 0(sp)
+    sw t1, 4(sp)
+    sw t2, 8(sp)
+    sw t3, 12(sp)
+    sw t4, 16(sp)
+    sw t5, 20(sp)
+    
     jal ra free
+    
+    lw t0, 0(sp)
+    lw t1, 4(sp)
+    lw t2, 8(sp)
+    lw t3, 12(sp)
+    lw t4, 16(sp)
+    lw t5, 20(sp)
+    addi sp, sp, 24
 
 	# FIXME ADD CONDITION CHECKING A2 THAT WAS PASSED IN
     # Print classification
     bne s2, x0, no_print
     add a1, s10, x0
+    
+    addi sp, sp, -24
+    sw t0, 0(sp)
+    sw t1, 4(sp)
+    sw t2, 8(sp)
+    sw t3, 12(sp)
+    sw t4, 16(sp)
+    sw t5, 20(sp)
+    
     jal ra print_int
+    
+    lw t0, 0(sp)
+    lw t1, 4(sp)
+    lw t2, 8(sp)
+    lw t3, 12(sp)
+    lw t4, 16(sp)
+    lw t5, 20(sp)
+    addi sp, sp, 24
+    
     # Print newline afterwards for clarity
     li a1, '\n'
+    
+    addi sp, sp, -24
+    sw t0, 0(sp)
+    sw t1, 4(sp)
+    sw t2, 8(sp)
+    sw t3, 12(sp)
+    sw t4, 16(sp)
+    sw t5, 20(sp)
+    
     jal print_char
+    
+    lw t0, 0(sp)
+    lw t1, 4(sp)
+    lw t2, 8(sp)
+    lw t3, 12(sp)
+    lw t4, 16(sp)
+    lw t5, 20(sp)
+    addi sp, sp, 24
+    
+    add a0, s10, x0
     
     #PROLOGUE
     lw s0, 0(sp)
