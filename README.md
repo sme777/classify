@@ -26,3 +26,18 @@
 
 
 ## Here's what I did in project 2:
+We worked with the suggested pair programming method from the Project Partner Piazza post. We alternated between tasks, explaining the code we are writing as we go along and our higher level reasoning. 
+### Samson's portions
+* DotProduct
+* Matmul
+* WriteMatrix
+* Helped w/ ArgMaxTesting
+* Helped w/ Classify
+### Michael's portions
+* Abs function
+* ArgMax
+* Helped w/ Matmul testing 
+* ReadMatrix
+* Classify
+
+We both also extensively helped each other with debugging throughout, and testing/sanity checks. 
