@@ -45,7 +45,6 @@ classify:
     #Saving passed in arguments
     add s0, x0, a0
     add s1, x0, a1
-    ebreak
     add s2, x0, a2
     
 	# =====================================
@@ -222,7 +221,6 @@ classify:
 
     
     jal ra matmul
-	ebreak
     lw t0, 0(sp)
     lw t1, 4(sp)
     lw t2, 8(sp)
@@ -267,7 +265,6 @@ classify:
     # GENERATING THIRD LAYER (SCORES)
     #allocating memory for the matrix
     #number of matrix elements
-    ebreak
     mul s3, t2, t5 #check if s2 is actual matrix size
     #number of bytes to allocate for storing matrix
     slli a0, s3, 2
@@ -280,7 +277,6 @@ classify:
     lw t5, 20(sp)
     #checking if malloc failed
     bge x0, a0, edge2 
-    ebreak
     #saving pointer to allocated memory for the matrix for matmul
     add s9, x0, a0
     #setting second (m1) matrix pointer
@@ -299,7 +295,6 @@ classify:
     
     
     jal ra matmul
-    ebreak
     lw t0, 0(sp)
     lw t1, 4(sp)
     lw t2, 8(sp)
@@ -415,8 +410,7 @@ classify:
     lw ra, 48(sp)
     addi sp, sp, 52
 
-	#FIX ME: DON'T FORGET TO FREE MEMORY
-    ret
+	ret
     
     
 edge1:
