@@ -371,17 +371,15 @@ classify:
     
 	#Freeing memory
     add a0, s8, x0
-    
-    
     jal ra free
-
     add a0, s9, x0
-    
-
-    
     jal ra free
-    
-
+	add a0, s7, x0
+    jal ra free
+    add a0, s6, x0
+    jal ra free
+    add a0, s5, x0
+    jal ra free
 
 	# FIXME ADD CONDITION CHECKING A2 THAT WAS PASSED IN
     # Print classification
