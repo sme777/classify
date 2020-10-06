@@ -45,6 +45,7 @@ classify:
     #Saving passed in arguments
     add s0, x0, a0
     add s1, x0, a1
+    ebreak
     add s2, x0, a2
     
 	# =====================================
@@ -427,6 +428,21 @@ edge2:
     j exit2
     
 no_print:
+	addi sp, sp, 24
+    lw s0, 0(sp)
+    lw s1, 4(sp)
+    lw s2, 8(sp)
+    lw s3, 12(sp)
+    lw s4, 16(sp)
+    lw s5, 20(sp)
+    lw s6, 24(sp)
+    lw s7, 28(sp)
+    lw s8, 32(sp)
+    lw s9, 36(sp)
+    lw s10, 40(sp)
+    lw s11, 44(sp)
+    lw ra, 48(sp)
+    addi sp, sp, 52
 	ret
     
 

@@ -1076,6 +1076,10 @@ class TestClassify(TestCase):
         ref_file = "outputs/test_basic_main/reference0.bin"
         args = ["inputs/simple0/bin/m0.bin", "inputs/simple0/bin/m1.bin",
                 "inputs/simple0/bin/inputs/input0.bin", out_file]
+
+        t.input_scalar("a0", 5)
+        #t.input_array("a1", t.array(args))
+        t.input_scalar("a2", 0)
         # call classify function
         t.call("classify")
         # generate assembly and pass program arguments directly to venus
@@ -1084,8 +1088,82 @@ class TestClassify(TestCase):
         # compare the output file and
         # raise NotImplementedError("TODO")
         # TODO
-        
+        t.check_file_output(out_file, ref_file)
+
+
         # compare the classification output with `check_stdout`
+        t.check_stdout("2")
+
+    def test_simple1_input0(self):
+        t = self.make_test()
+        out_file = "outputs/test_basic_main/student1.bin"
+        ref_file = "outputs/test_basic_main/reference1.bin"
+        args = ["inputs/simple1/bin/m0.bin", "inputs/simple1/bin/m1.bin",
+                "inputs/simple1/bin/inputs/input0.bin", out_file]
+
+        t.input_scalar("a0", 5)
+        #t.input_array("a1", t.array(args))
+        t.input_scalar("a2", 0)
+        # call classify function
+        t.call("classify")
+        # generate assembly and pass program arguments directly to venus
+        t.execute(args=args)
+
+        # compare the output file and
+        # raise NotImplementedError("TODO")
+        # TODO
+        t.check_file_output(out_file, ref_file)
+
+
+        # compare the classification output with `check_stdout`
+        t.check_stdout("1")
+
+    def test_edge1(self):
+        t = self.make_test()
+        out_file = "outputs/test_basic_main/student1.bin"
+        ref_file = "outputs/test_basic_main/reference1.bin"
+        args = ["inputs/simple1/bin/m0.bin", "inputs/simple1/bin/m1.bin",
+                "inputs/simple1/bin/inputs/input0.bin", out_file]
+
+        t.input_scalar("a0", 4)
+        #t.input_array("a1", t.array(args))
+        t.input_scalar("a2", 0)
+        # call classify function
+        t.call("classify")
+        # generate assembly and pass program arguments directly to venus
+        t.execute(args=args, code=89)
+
+    def test_edge2(self):
+        t = self.make_test()
+        out_file = "outputs/test_basic_main/student1.bin"
+        ref_file = "outputs/test_basic_main/reference1.bin"
+        args = ["inputs/simple1/bin/m0.bin", "inputs/simple1/bin/m1.bin",
+                "inputs/simple1/bin/inputs/input0.bin", out_file]
+
+        t.input_scalar("a0", 5)
+        #t.input_array("a1", t.array(args))
+        t.input_scalar("a2", 0)
+        # call classify function
+        t.call("classify")
+        # generate assembly and pass program arguments directly to venus
+        t.execute(args=args, fail='malloc', code=88)
+
+    def test_edge3(self):
+        t = self.make_test()
+        out_file = "outputs/test_basic_main/student1.bin"
+        ref_file = "outputs/test_basic_main/reference1.bin"
+        args = ["inputs/simple1/bin/m0.bin", "inputs/simple1/bin/m1.bin",
+                "inputs/simple1/bin/inputs/input0.bin", out_file]
+
+        t.input_scalar("a0", 5)
+        #t.input_array("a1", t.array(args))
+        t.input_scalar("a2", 7)
+        # call classify function
+        t.call("classify")
+        # generate assembly and pass program arguments directly to venus
+        t.execute(args=args)
+        t.check_stdout('')
+    
 
     @classmethod
     def tearDownClass(cls):
